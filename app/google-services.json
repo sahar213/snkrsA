@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "689039085674",
+    "project_id": "sample-firebase-ai-app22-6975e",
+    "storage_bucket": "sample-firebase-ai-app22-6975e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:689039085674:android:1a189d27ea8318d50c3a13",
+        "android_client_info": {
+          "package_name": "com.sahar.snkrsa"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHgBthMhD2JyDjPqnXoUgTxHrC-Fgolco"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
