@@ -20,6 +20,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -52,6 +54,18 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_register);
 
+
+
+
+
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+
+        });
+
         etEmail = findViewById(R.id.etEmail);
         etfName = findViewById(R.id.etfName);
         etlName=findViewById(R.id.etlName);
@@ -72,16 +86,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         myRef = database.getReference("Users");
 
         mAuth = FirebaseAuth.getInstance();
-
-
-
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-
-        });
 
     }
 
@@ -118,37 +122,52 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
         }
         if (TextUtils.isEmpty(lName)) {
-            etfName.setError("First Name is required");
+            etlName.setError("Last Name is required");
             fix=false;
 
         }
         if (TextUtils.isEmpty(Password)) {
-            etfName.setError("First Name is required");
+            etPassword.setError("Password is required");
             fix=false;
 
-        }
-      //  if(fix)
-
+        }      //
+        if(fix)
         {
 
-             newUser=new User(mAuth.getUid(), fName, lName, phone, email, Password);
+
 
             mAuth.createUserWithEmailAndPassword(email, Password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
+
+
                             if (task.isSuccessful()) {
                                 // Sign in success, update UI with the signed-in user's information
 
-
-                                myRef.child(mAuth.getUid()).setValue(newUser);
                                 Log.d("TAG", "createUserWithEmail:success");
 
 
 
 
+                                newUser=new User(mAuth.getUid(), fName, lName, phone, email, Password);
 
-                              Log.d("TAGUser", ""+newUser.toString());
+                                myRef.child(mAuth.getUid()).setValue(newUser).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(Register.this, "Registration seccessful", Toast.LENGTH_LONG).show();
+                                    }
+                                })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(Register.this, "Error", Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+
+
+
+                              Log.d("TAGUser", newUser.toString());
 
 
                                 SharedPreferences.Editor editor = sharedpreferences.edit();
@@ -156,8 +175,11 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                                 editor.putString("email", email);
                                 editor.putString("password", Password);
 
-                                editor.commit();
+                                editor.apply();
 
+
+                                Intent go = new Intent(Register.this, login_activity.class);
+                                startActivity(go);
 
 
                             }
@@ -182,8 +204,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
 
 
-            Intent go = new Intent(this, login_activity.class);
-            startActivity(go);
+
 
         }
 
@@ -193,24 +214,20 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
+        if (v==btnloginnn){
+            Intent goLog=new Intent(getApplicationContext(), login_activity.class);
+            startActivity(goLog);
 
-        if (v == btnRegister) {
+        }
+        if (v == btnRegister&&fix==true) {
 
             validateInputs();
-            if (fix){
-                myRef.child(mAuth.getUid()).setValue(newUser);
-
-                Intent goLog=new Intent(getApplicationContext(), login_activity.class);
-                startActivity(goLog);
-            }
-
-        }
-        if (v==btnloginnn){
-
+            Intent goLog=new Intent(getApplicationContext(), login_activity.class);
+            startActivity(goLog);
         }
 
-                Intent goLog=new Intent(getApplicationContext(), login_activity.class);
-                startActivity(goLog);
+
+
 
 
         }

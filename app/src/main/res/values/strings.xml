@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">snkrsA</string>
+    <string name="title_activity_main_main">MainActivityMain</string>
+    <string name="title_activity_main_m">MainActivityM</string>
 </resources>

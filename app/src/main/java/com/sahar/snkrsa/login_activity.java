@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -23,11 +24,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class login_activity extends AppCompatActivity  {
+public class login_activity extends AppCompatActivity {
 
 
     EditText etEmail, etPassword;
     Button btnLog;
+    ImageButton iBtn2;
     String email, pass;
     FirebaseDatabase database;
     DatabaseReference myRef;
@@ -48,63 +50,62 @@ public class login_activity extends AppCompatActivity  {
         initViews();
     }
 
-        private void initViews ()
+    private void initViews() {
 
-         {
-
-            etEmail = findViewById(R.id.etEmailLogin);
-            etPassword = findViewById(R.id.etPasswordLogin);
-            btnLog = findViewById(R.id.btnLogIn2);
-
+        etEmail = findViewById(R.id.etEmailLogin);
+        etPassword = findViewById(R.id.etPasswordLogin);
+        btnLog = findViewById(R.id.btnLogIn2);
+        iBtn2 = findViewById(R.id.imageButton);
 
 
-            mAuth = FirebaseAuth.getInstance();
-            database = FirebaseDatabase.getInstance();
-            myRef = database.getReference("Users");
+        mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("Users");
 
 
-        }
+    }
 
 
-        public void login2 (View view){
+    public void login2(View view) {
 
 
-            email = etEmail.getText().toString();
-            pass = etPassword.getText().toString();
+        email = etEmail.getText().toString();
+        pass = etPassword.getText().toString();
 
 
-            mAuth.signInWithEmailAndPassword(email, pass)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                Log.d("TAG", "signInWithEmail:success");
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                final String userUid = user.getUid();
+        mAuth.signInWithEmailAndPassword(email, pass)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d("TAG", "signInWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            final String userUid = user.getUid();
 
 
-                                Intent go = new Intent(getApplicationContext(), MainActivity2.class);
-                                startActivity(go);
-                            } else {
+                            Intent go = new Intent(getApplicationContext(), MainActivity2.class);
+                            startActivity(go);
+                        } else {
 
 //                                // If sign in fails, display a message to the user.
-                                Log.w("TAG", "signInWithEmail:failure", task.getException());
-                                Toast.makeText(getApplicationContext(), "User doesn't exist",
-                                        Toast.LENGTH_SHORT).show();
+                            Log.w("TAG", "signInWithEmail:failure", task.getException());
+                            Toast.makeText(getApplicationContext(), "User doesn't exist",
+                                    Toast.LENGTH_SHORT).show();
 //
-                            }
-
                         }
-                    });
+
+                    }
+                });
+
+    }
+
+
+    public void iBtn2(View view) {
+        if (view == iBtn2) {
+            Intent goLog = new Intent(getApplicationContext(), Register.class);
+            startActivity(goLog);
 
         }
-
-
-
-
-
-
-
-
+    }
 }

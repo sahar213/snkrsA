@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="arrGlovesSize">
+        <item>12oz</item>
+        <item>14oz</item>
+        <item>16oz</item>
+
+
+    </string-array>
+
+    <string-array name="arrSize">
+        <item>XS</item>
+        <item>S</item>
+        <item>M</item>
+        <item>L</item>
+        <item>XL</item>
+
+
+    </string-array>
+
+    <string-array name="arrColor">
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+
+
+    </string-array>
+
+
+</resources>
