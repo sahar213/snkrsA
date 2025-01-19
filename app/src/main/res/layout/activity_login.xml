@@ -69,10 +69,11 @@
         app:layout_constraintTop_toBottomOf="@+id/etPasswordLogin" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/iBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/backc"
+        android:onClick="ibtnback"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="13dp" />
 

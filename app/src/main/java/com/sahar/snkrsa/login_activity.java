@@ -29,7 +29,7 @@ public class login_activity extends AppCompatActivity {
 
     EditText etEmail, etPassword;
     Button btnLog;
-    ImageButton iBtn2;
+    ImageButton iBtn;
     String email, pass;
     FirebaseDatabase database;
     DatabaseReference myRef;
@@ -55,7 +55,7 @@ public class login_activity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmailLogin);
         etPassword = findViewById(R.id.etPasswordLogin);
         btnLog = findViewById(R.id.btnLogIn2);
-        iBtn2 = findViewById(R.id.imageButton);
+        iBtn = findViewById(R.id.iBtn);
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -100,10 +100,9 @@ public class login_activity extends AppCompatActivity {
 
     }
 
-
-    public void iBtn2(View view) {
-        if (view == iBtn2) {
-            Intent goLog = new Intent(getApplicationContext(), Register.class);
+    public void ibtnback(View view) {
+        if (view == iBtn) {
+            Intent goLog = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(goLog);
 
         }
