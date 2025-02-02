@@ -23,17 +23,35 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.sahar.snkrsa.model.User;
+import com.sahar.snkrsa.services.AuthenticationService;
+import com.sahar.snkrsa.services.DatabaseService;
+import com.sahar.snkrsa.utils.SharedPreferencesUtil;
 
 public class login_activity extends AppCompatActivity {
 
 
     EditText etEmail, etPassword;
     Button btnLog;
-    ImageButton iBtn;
+    ImageButton iBtnBack;
     String email, pass;
-    FirebaseDatabase database;
-    DatabaseReference myRef;
-    private FirebaseAuth mAuth;
+
+
+
+    private static final String TAG = "LoginActivity";
+
+
+
+    private AuthenticationService authenticationService;
+    private DatabaseService databaseService;
+    private User user;
+
+    String adminMail="saharshrem986@gmail.com";
+    String adminPass="sahar123456";
+
+    boolean isAdmin=false;
+
+
 
 
     @Override
@@ -47,7 +65,20 @@ public class login_activity extends AppCompatActivity {
             return insets;
         });
 
+        /// get the instance of the authentication service
+        authenticationService = AuthenticationService.getInstance();
+        /// get the instance of the database service
+        databaseService = DatabaseService.getInstance();
+
+
+
         initViews();
+
+        user= SharedPreferencesUtil.getUser(login_activity.this);
+        if(user!=null) {
+            etEmail.setText(user.getEmail());
+            etPassword.setText(user.getPassword());
+        }
     }
 
     private void initViews() {
@@ -55,12 +86,9 @@ public class login_activity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmailLogin);
         etPassword = findViewById(R.id.etPasswordLogin);
         btnLog = findViewById(R.id.btnLogIn2);
-        iBtn = findViewById(R.id.iBtn);
+        iBtnBack = findViewById(R.id.iBtnBack);
 
 
-        mAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("Users");
 
 
     }
@@ -72,39 +100,79 @@ public class login_activity extends AppCompatActivity {
         email = etEmail.getText().toString();
         pass = etPassword.getText().toString();
 
-
-        mAuth.signInWithEmailAndPassword(email, pass)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("TAG", "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            final String userUid = user.getUid();
+        /// Login user
+        loginUser(email, pass);
 
 
-                            Intent go = new Intent(getApplicationContext(), MainActivity2.class);
-                            startActivity(go);
-                        } else {
-
-//                                // If sign in fails, display a message to the user.
-                            Log.w("TAG", "signInWithEmail:failure", task.getException());
-                            Toast.makeText(getApplicationContext(), "User doesn't exist",
-                                    Toast.LENGTH_SHORT).show();
-//
-                        }
-
-                    }
-                });
 
     }
 
     public void ibtnback(View view) {
-        if (view == iBtn) {
+        if (view == iBtnBack) {
             Intent goLog = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(goLog);
 
         }
     }
+
+    private void loginUser(String email, String password) {
+        authenticationService.signIn(email, password, new AuthenticationService.AuthCallback<String>() {
+            /// Callback method called when the operation is completed
+            /// @param uid the user ID of the user that is logged in
+            @Override
+            public void onCompleted(String uid) {
+                Log.d(TAG, "onCompleted: User logged in successfully");
+                /// get the user data from the database
+
+
+                databaseService.getUser(uid, new DatabaseService.DatabaseCallback<User>() {
+                    @Override
+                    public void onCompleted(User u) {
+                        user = u;
+                        Log.d(TAG, "onCompleted: User data retrieved successfully");
+                        /// save the user data to shared preferences
+                        SharedPreferencesUtil.saveUser(login_activity.this, user);
+                        /// Redirect to main activity and clear back stack to prevent user from going back to login screen
+
+
+                        if(email.equals(adminMail)&& password.equals(adminPass))
+                        {
+                            Intent mainIntent = new Intent(login_activity.this, AdminMain.class);
+                        }
+                        Intent mainIntent = new Intent(login_activity.this, MainMain.class);
+                        /// Clear the back stack (clear history) and start the MainActivity
+                        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(mainIntent);
+
+                    }
+
+                    @Override
+                    public void onFailed(Exception e) {
+                        Log.e(TAG, "onFailed: Failed to retrieve user data", e);
+                        /// Show error message to user
+                        etPassword.setError("Invalid email or password");
+                        etPassword.requestFocus();
+                        /// Sign out the user if failed to retrieve user data
+                        /// This is to prevent the user from being logged in again
+                        authenticationService.signOut();
+
+                    }
+                });
+
+
+            }
+
+
+
+            @Override
+            public void onFailed(Exception e) {
+                Log.e(TAG, "onFailed: Failed to log in user", e);
+                /// Show error message to user
+                etPassword.setError("Invalid email or password");
+                etPassword.requestFocus();
+
+            }
+        });
+    }
+
 }
