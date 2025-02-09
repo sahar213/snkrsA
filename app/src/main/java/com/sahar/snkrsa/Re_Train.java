@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,7 +14,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class Re_Train extends AppCompatActivity {
 
-    Button btnBack1 = findViewById(R.id.btnBack1);
+    ImageButton ibtnLogo2;
+    Button btnBack1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,12 +28,17 @@ public class Re_Train extends AppCompatActivity {
             return insets;
         });
 
+     // btnBack1 = findViewById(R.id.btnBackToMain);
+
     }
 
-    public void backtomain(View view) {
-        if (view==btnBack1){
-            Intent goLog=new Intent(getApplicationContext(), Register.class);
+
+
+    public void mainbtn2(View view) {
+
+            Intent goLog = new Intent(Re_Train.this, MainMain.class);
             startActivity(goLog);
+
+
     }
-}
 }

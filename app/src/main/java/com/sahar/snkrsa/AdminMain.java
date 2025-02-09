@@ -27,9 +27,8 @@ Button btnAddItem;
     }
 
     public void additem(View view) {
-        if (view==btnAddItem){
-            Intent goLog=new Intent(getApplicationContext(), Re_Train.class);
+            Intent goLog=new Intent(AdminMain.this, AddItem.class);
             startActivity(goLog);
-        }
+
     }
 }

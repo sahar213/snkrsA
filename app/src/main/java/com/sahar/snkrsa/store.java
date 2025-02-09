@@ -12,7 +12,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class store extends AppCompatActivity {
-Button btnBack2=findViewById(R.id.btnBack2);
+//Button btnBack2=findViewById(R.id.btnBack2);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,10 +25,10 @@ Button btnBack2=findViewById(R.id.btnBack2);
         });
     }
 
-    public void backtomain2(View view) {
-        if (view==btnBack2){
-            Intent goLog=new Intent(getApplicationContext(), Register.class);
-            startActivity(goLog);
-        }
+
+
+    public void mainbtn3(View view) {
+        Intent goLog=new Intent(store.this, MainMain.class);
+        startActivity(goLog);
     }
 }

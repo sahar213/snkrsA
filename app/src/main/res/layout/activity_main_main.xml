@@ -40,4 +40,20 @@
         android:onClick="store"
         app:layout_constraintStart_toStartOf="@+id/btnReTrain"
         app:layout_constraintTop_toBottomOf="@+id/btnReTrain" />
+
+    <ImageButton
+        android:id="@+id/ibtnlogo2"
+        android:layout_width="90dp"
+        android:layout_height="88dp"
+        android:background="@drawable/blacklogo2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:onClick="mainbtn"
+        app:layout_constraintHorizontal_bias="0.049"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.024"
+   />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
