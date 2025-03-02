@@ -7,7 +7,9 @@ import androidx.annotation.Nullable;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.sahar.snkrsa.model.Cart;
 import com.sahar.snkrsa.model.Item;
+import com.sahar.snkrsa.model.Product;
 import com.sahar.snkrsa.model.TrainLesson;
 import com.sahar.snkrsa.model.User;
 
@@ -137,10 +139,18 @@ public class DatabaseService {
     /// @return void
     /// @see DatabaseCallback
     /// @see User
-    
+
+
+
     public void createNewUser(@NotNull final User user, @Nullable final DatabaseCallback<Void> callback) {
         writeData("Users/" + user.getId(), user, callback);
     }
+
+    public void updateUser(@NotNull final String uid, @Nullable final Cart cart, @Nullable final DatabaseCallback<Void> callback) {
+        writeData("Users/" + uid, cart, callback);
+    }
+
+
 
     /// create a new item in the database
     /// @param item the item object to create
@@ -150,8 +160,8 @@ public class DatabaseService {
     /// @return void
     /// @see DatabaseCallback
     /// @see Item
-    public void createNewItem(@NotNull final Item item, @Nullable final DatabaseCallback<Void> callback) {
-        writeData("items/" + item.getId(), item, callback);
+    public void createNewProduct(@NotNull final Product product, @Nullable final DatabaseCallback<Void> callback) {
+        writeData("Products/" + product.getId(), product, callback);
     }
 
     /// create a new trainLesson in the database
@@ -189,8 +199,8 @@ public class DatabaseService {
     /// @return void
     /// @see DatabaseCallback
     /// @see Item
-    public void getItem(@NotNull final String itemId, @NotNull final DatabaseCallback<Item> callback) {
-        getData("items/" + itemId, Item.class, callback);
+    public void getItem(@NotNull final String itemId, @NotNull final DatabaseCallback<Product> callback) {
+        getData("Products/" + itemId, Product.class, callback);
     }
 
     /// get a trainLesson from the database
@@ -230,8 +240,8 @@ public class DatabaseService {
     /// @see List
     /// @see Item
     /// @see #getData(String, Class, DatabaseCallback)
-    public void getItems(@NotNull final DatabaseCallback<List<Item>> callback) {
-        readData("items").get().addOnCompleteListener(task -> {
+    public void getProducts(@NotNull final DatabaseCallback<List<Item>> callback) {
+        readData("Products").get().addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {
                 Log.e(TAG, "Error getting data", task.getException());
                 callback.onFailed(task.getException());

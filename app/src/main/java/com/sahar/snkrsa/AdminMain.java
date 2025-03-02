@@ -23,11 +23,11 @@ Button btnAddItem;
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        btnAddItem=findViewById(R.id.btnAddItem);
+        btnAddItem=findViewById(R.id.btnAddItemAdmin);
     }
 
     public void additem(View view) {
-            Intent goLog=new Intent(AdminMain.this, AddItem.class);
+            Intent goLog=new Intent(AdminMain.this, AddProductActivity.class);
             startActivity(goLog);
 
     }

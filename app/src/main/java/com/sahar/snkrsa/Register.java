@@ -93,7 +93,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         etPhone = findViewById(R.id.etPhone);
         btnRegister = findViewById(R.id.btnReg);
         btnloginnn=findViewById(R.id.btnloginnn);
-        tvError = findViewById(R.id.tvError);
         etPassword=findViewById(R.id.etPassword);
         btnRegister.setOnClickListener(this);
         btnloginnn.setOnClickListener(this);

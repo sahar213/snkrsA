@@ -12,12 +12,16 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class MainMain extends AppCompatActivity {
+import com.sahar.snkrsa.model.Cart;
+
+public class MainMain extends AppCompatActivity implements View.OnClickListener {
 
 
     private Button btnStore;
     private Button btnReTrain;
+    private Button btnAddProduct;
     private ImageButton ibtnLogo;
+    private Button btnViewCart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +36,9 @@ public class MainMain extends AppCompatActivity {
 
      btnStore=findViewById(R.id.btnStore);
       btnReTrain=findViewById(R.id.btnReTrain);
+      btnAddProduct=findViewById(R.id.btnAddProduct);
+      btnAddProduct.setOnClickListener(this);
+      btnViewCart=findViewById(R.id.btnViewCart);
     }
 
 
@@ -54,7 +61,23 @@ public class MainMain extends AppCompatActivity {
 
             Intent goLog = new Intent(MainMain.this, MainMain.class);
             startActivity(goLog);
+    }
 
 
+    @Override
+    public void onClick(View v) {
+        if(v==btnAddProduct) {
+            Intent intent = new Intent(MainMain.this, AddProductActivity.class);
+            startActivity(intent);
+        }
+    }
+
+
+    public void CartView(View view) {
+if (view==btnViewCart)
+{
+    Intent intent = new Intent(MainMain.this, CartPage.class);
+    startActivity(intent);
+}
     }
 }

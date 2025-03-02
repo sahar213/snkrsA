@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="arrGlovesSize">
-        <item>12oz</item>
-        <item>14oz</item>
-        <item>16oz</item>
+    <string-array name="arrType">
+        <item>Gloves</item>
+        <item>Shin Guard</item>
+        <item>Wraps</item>
+        <item>Mouth Guard</item>
+        <item></item>
+
 
 
     </string-array>
@@ -14,15 +17,17 @@
         <item>M</item>
         <item>L</item>
         <item>XL</item>
-
+        <item>12oz</item>
+        <item>14oz</item>
+        <item>16oz</item>
 
     </string-array>
 
     <string-array name="arrColor">
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
+        <item>Black</item>
+        <item>White</item>
+        <item>Red</item>
+        <item>Blue</item>
         <item></item>
 
 

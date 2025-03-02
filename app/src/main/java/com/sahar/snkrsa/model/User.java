@@ -1,22 +1,34 @@
 package com.sahar.snkrsa.model;
 
+
+
+
+
+import java.util.ArrayList;
+
 public class User {
     String id;
     String fName;
     String lName;
-
+    private static User instance;
     String phone;
     String email;
     String password;
 
+
+
     public User(String id, String fName, String lName, String phone, String email, String password) {
+
         this.id = id;
         this.fName = fName;
         this.lName = lName;
         this.phone = phone;
         this.email = email;
         this.password = password;
+
     }
+
+
 
     public User() {
     }
@@ -28,6 +40,15 @@ public class User {
         this.phone = phone;
         this.email = email;
     }
+
+
+    public static User getInstance() {
+        if (instance == null) {
+            instance = new User();
+        }
+        return instance;
+    }
+
 
     public String getId() {
         return id;
