@@ -54,6 +54,8 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
     // constant to compare
     // the activity result code
     int SELECT_PICTURE = 200;
+    private String selectedColor="";
+    private String selectedSize="";
 
 
     @Override
@@ -123,14 +125,14 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
             String description = productDescriptionField.getText().toString().trim();
 
             // שליפת הערכים שנבחרו בספינרים
-            String selectedSize = sizeSpinner.getSelectedItem().toString();
-            String selectedColor = colorSpinner.getSelectedItem().toString();
+             selectedSize += sizeSpinner.getSelectedItem().toString()+", ";
+             selectedColor += colorSpinner.getSelectedItem().toString()+", ";
             String selectedType = typeSpinner.getSelectedItem().toString();
 
             String imageBase64 = ImageUtil.convertTo64Base(iv);
-            size=sizeSpinner.getSelectedItem().toString();
+
             type=typeSpinner.getSelectedItem().toString();
-            color=colorSpinner.getSelectedItem().toString();
+
 
 
 
@@ -149,7 +151,7 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
 
 
 
-                    Product newProduct = new Product(id, name, price,type,size,color, description,imageBase64 );
+                    Product newProduct = new Product(id, name, price,type,selectedSize,selectedColor, description,imageBase64 );
 
                 databaseService.createNewProduct(newProduct, new DatabaseService.DatabaseCallback<Void>() {
                     @Override

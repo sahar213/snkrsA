@@ -6,11 +6,27 @@ public class Cart {
 
     ArrayList<ItemCart>itemCarts;
 
+double total;
+
     public Cart(ArrayList<ItemCart> itemCarts) {
         this.itemCarts = itemCarts;
     }
 
+
+    public Cart(ArrayList<ItemCart> itemCarts, double total) {
+        this.itemCarts = itemCarts;
+        this.total = total;
+    }
+
     public Cart() {
+        itemCarts=new ArrayList<>();
+
+
+    }
+
+    public  void  addItemToCart(ItemCart itemCart){
+
+        this.itemCarts.add(itemCart);
     }
 
     public ArrayList<ItemCart> getItemCarts() {
@@ -21,12 +37,32 @@ public class Cart {
         this.itemCarts = itemCarts;
     }
 
+    public double getTotalCart(){
+        double sum=0;
+        for (int i=0; i<this.itemCarts.size();i++){
+            sum+=this.itemCarts.get(i).amount*this.itemCarts.get(i).getProduct().getPrice();
 
+
+
+        }
+        return sum;
+
+    }
+
+
+    public double getTotall() {
+        return total;
+    }
+
+    public void setTotall(double totall) {
+        this.total = totall;
+    }
 
     @Override
     public String toString() {
         return "Cart{" +
                 "itemCarts=" + itemCarts +
+                ", total=" + total +
                 '}';
     }
 }

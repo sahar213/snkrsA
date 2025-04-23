@@ -70,10 +70,7 @@ public class ProductAdapter extends BaseAdapter {
 
         convertView.setOnClickListener(v -> {
             Intent intent = new Intent(context, ProductPage.class);
-            intent.putExtra("product_name", product.getName());
-            intent.putExtra("product_price", product.getPrice()+"");
-            intent.putExtra("product_description", product.getDescription());
-         intent.putExtra("product_image", product.getImageName()); // העברת שם התמונה
+          intent.putExtra("product", product);
             context.startActivity(intent);
         });
 

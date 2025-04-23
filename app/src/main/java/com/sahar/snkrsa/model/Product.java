@@ -31,11 +31,21 @@ public class Product implements Serializable {
         this.imageName = imageName;
     }
 
+    public Product(Product product) {
+        this.id = product.id;
+        this.name = product.name;
+        this.price = product.price;
+        this.type = product.type;
+        this.size = "";
+        this.color = "";
+        this.description = product.description;
+        this.imageName = product.imageName;
+    }
+
+
     public Product() {
     }
 
-    public Product(String name, String price, String description, String imageName) {
-    }
 
     public String getName() {
         return name;

@@ -20,6 +20,7 @@
         <item>12oz</item>
         <item>14oz</item>
         <item>16oz</item>
+        <item>One size</item>
 
     </string-array>
 
@@ -28,8 +29,40 @@
         <item>White</item>
         <item>Red</item>
         <item>Blue</item>
-        <item></item>
+        <item>Yellow</item>
+        <item>Silver</item>
+        <item>Green</item>
+        <item>Orange</item>
 
+    </string-array>
+
+    <string-array name="arrAmount">
+
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
 
     </string-array>
 

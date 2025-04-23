@@ -28,6 +28,16 @@
         android:text="Price: $10"
         android:textSize="18sp" />
 
+    <Spinner
+        android:id="@+id/spProductColor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Spinner
+        android:id="@+id/spProductSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <TextView
         android:id="@+id/product_description"
         android:layout_width="wrap_content"
@@ -35,6 +45,13 @@
         android:text="Detailed product description goes here."
         android:textSize="16sp"
         android:layout_marginTop="16dp" />
+
+    <Spinner
+        android:id="@+id/spAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/arrAmount"
+        />
 
     <Button
         android:id="@+id/buy_button"
