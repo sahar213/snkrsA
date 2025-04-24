@@ -2,8 +2,10 @@ package com.sahar.snkrsa;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,7 @@ public class CartPage extends AppCompatActivity implements View.OnClickListener 
     // הסל שהוגדר ב-ProductPage
     private Cart cart;
 
+    ScrollView svCart;
 
     DatabaseService databaseService;
     AuthenticationService authenticationService;
@@ -36,6 +39,7 @@ public class CartPage extends AppCompatActivity implements View.OnClickListener 
 
         cartItems = findViewById(R.id.cart_items);
         btnBackFcart =findViewById(R.id.btnBackFcart);
+        svCart = findViewById(R.id.svCart);
 
         // הצגת פרטי המוצרים בסל
         StringBuilder cartContent = new StringBuilder();
@@ -49,11 +53,26 @@ public class CartPage extends AppCompatActivity implements View.OnClickListener 
             @Override
             public void onCompleted(Cart object) {
 
-
                 if (object == null)
                     cart = new Cart();
-                else cart = object;
+                else
+                    cart = object;
 
+                if (cart != null ) {
+
+                    for (ItemCart product : cart.getItemCarts()) {
+                        cartContent.append("Image: ").append(product.getProduct()).append("\n");
+                        cartContent.append("Name: ").append(product.getProduct().getName()).append("\n");
+                        cartContent.append("Price: ").append(product.getProduct().getPrice()).append("\n");
+                        cartContent.append("Description: ").append(product.getProduct().getDescription()).append("\n\n");
+
+                        Log.d("cart", cartContent.toString());
+                    }
+
+
+                } else {
+                    cartContent.append("הסל ריק.");
+                }
 
 
 
@@ -65,21 +84,9 @@ public class CartPage extends AppCompatActivity implements View.OnClickListener 
             }
         });
 
-        if (cart != null ) {
 
-
-            for (ItemCart product : cart.getItemCarts()) {
-                // cartContent.append("Image: ").append(product.getProduct()).append("\n");
-                cartContent.append("Name: ").append(product.getProduct().getName()).append("\n");
-                cartContent.append("Price: ").append(product.getProduct().getPrice()).append("\n");
-                cartContent.append("Description: ").append(product.getProduct().getDescription()).append("\n\n");
-            }
-        } else {
-            cartContent.append("הסל ריק.");
-        }
         btnBackFcart.setOnClickListener(this);
         cartItems.setText(cartContent.toString());
-
 
     }
 

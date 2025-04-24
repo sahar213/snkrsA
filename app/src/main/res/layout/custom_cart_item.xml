@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/product_image"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/blacklogo2"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/product_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Product Name"
+        android:layout_marginTop="8dp"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/product_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Price"
+        android:layout_marginTop="4dp"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/product_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="amount"
+        android:layout_marginTop="4dp"
+        android:textSize="14sp" />
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_height="100dp">
+
+        <ImageButton
+            android:layout_width="70dp"
+            android:id="@+id/ibPlus"
+            android:layout_height="70dp"
+            android:background="#00123456"
+            android:layout_gravity="center"
+            android:src="@drawable/plus"/>
+
+        <TextView
+            android:id="@+id/product_size"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:text="size"
+            android:textSize="14sp" />
+
+        <ImageButton
+            android:layout_width="70dp"
+            android:id="@+id/ibPlus"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:background="#00123456"
+            android:src="@drawable/miuns"/>
+
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>
+
