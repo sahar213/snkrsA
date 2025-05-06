@@ -8,9 +8,7 @@ import androidx.annotation.Nullable;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.sahar.snkrsa.model.Cart;
-import com.sahar.snkrsa.model.Item;
 import com.sahar.snkrsa.model.Product;
-import com.sahar.snkrsa.model.TrainLesson;
 import com.sahar.snkrsa.model.User;
 
 import org.jetbrains.annotations.NotNull;
@@ -28,6 +26,7 @@ public class DatabaseService {
     /// tag for logging
     /// @see Log
     private static final String TAG = "DatabaseService";
+    private AuthenticationService authenticationService = AuthenticationService.getInstance();
 
     /// callback interface for database operations
     /// @param <T> the type of the object to return
@@ -116,7 +115,6 @@ public class DatabaseService {
             callback.onCompleted(data);
         });
     }
-
     /// generate a new id for a new object in the database
     /// @param path the path to generate the id for
     /// @return a new id for the object
@@ -146,10 +144,6 @@ public class DatabaseService {
         writeData("Users/" + user.getId(), user, callback);
     }
 
-    public void updateUser(@NotNull final String uid, @Nullable final Cart cart, @Nullable final DatabaseCallback<Void> callback) {
-        writeData("Users/" + uid, cart, callback);
-    }
-
 
 
     /// create a new item in the database
@@ -162,18 +156,6 @@ public class DatabaseService {
     /// @see Item
     public void createNewProduct(@NotNull final Product product, @Nullable final DatabaseCallback<Void> callback) {
         writeData("Products/" + product.getId(), product, callback);
-    }
-
-    /// create a new trainLesson in the database
-    /// @param trainLesson the trainLesson object to create
-    /// @param callback the callback to call when the operation is completed
-    ///               the callback will receive void
-    ///              if the operation fails, the callback will receive an exception
-    /// @return void
-    /// @see DatabaseCallback
-    /// @see TrainLesson
-    public void createNewTrainLesson(@NotNull final TrainLesson trainLesson, @Nullable final DatabaseCallback<Void> callback) {
-        writeData("trainLessons/" + trainLesson.getId(), trainLesson, callback);
     }
 
 
@@ -199,37 +181,19 @@ public class DatabaseService {
     /// @return void
     /// @see DatabaseCallback
     /// @see Item
-    public void getItem(@NotNull final String itemId, @NotNull final DatabaseCallback<Product> callback) {
-        getData("Products/" + itemId, Product.class, callback);
+    public void getProduct(@NotNull final String productId, @NotNull final DatabaseCallback<Product> callback) {
+        getData("Products/" + productId, Product.class, callback);
     }
 
-    /// get a trainLesson from the database
-    /// @param trainLessonId the id of the trainLesson to get
-    /// @param callback the callback to call when the operation is completed
-    ///                the callback will receive the trainLesson object
-    ///               if the operation fails, the callback will receive an exception
-    /// @return void
-    /// @see DatabaseCallback
-    /// @see TrainLesson
-    public void getTrainLesson(@NotNull final String trainLessonId, @NotNull final DatabaseCallback<TrainLesson> callback) {
-        getData("trainLessons/" + trainLessonId, TrainLesson.class, callback);
-    }
 
     /// generate a new id for a new item in the database
     /// @return a new id for the item
     /// @see #generateNewId(String)
     /// @see Item
-    public String generateItemId() {
-        return generateNewId("items");
+    public String generateProductId() {
+        return generateNewId("Products");
     }
 
-    /// generate a new id for a new trainLesson in the database
-    /// @return a new id for the trainLesson
-    /// @see #generateNewId(String)
-    /// @see TrainLesson
-    public String generateTrainLessonId() {
-        return generateNewId("trainLessons");
-    }
 
     /// get all the items from the database
     /// @param callback the callback to call when the operation is completed
@@ -240,21 +204,21 @@ public class DatabaseService {
     /// @see List
     /// @see Item
     /// @see #getData(String, Class, DatabaseCallback)
-    public void getProducts(@NotNull final DatabaseCallback<List<Item>> callback) {
+    public void getProducts(@NotNull final DatabaseCallback<List<Product>> callback) {
         readData("Products").get().addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {
                 Log.e(TAG, "Error getting data", task.getException());
                 callback.onFailed(task.getException());
                 return;
             }
-            List<Item> items = new ArrayList<>();
+            List<Product> productList = new ArrayList<>();
             task.getResult().getChildren().forEach(dataSnapshot -> {
-                Item item = dataSnapshot.getValue(Item.class);
-                Log.d(TAG, "Got item: " + item);
-                items.add(item);
+                Product product = dataSnapshot.getValue(Product.class);
+                Log.d(TAG, "Got item: " + product);
+                productList.add(product);
             });
 
-            callback.onCompleted(items);
+            callback.onCompleted(productList);
         });
     }
 
@@ -294,7 +258,7 @@ public class DatabaseService {
     /// @see DatabaseCallback
     /// @see Cart
     public void getCart(String uid, @NotNull final DatabaseCallback<Cart> callback) {
-        getData("carts/" + uid, Cart.class, callback);
+        getData("userCart/" + uid, Cart.class, callback);
     }
 
 
@@ -307,19 +271,14 @@ public class DatabaseService {
     /// @see DatabaseCallback
     /// @see Cart
     public void updateCart(@NotNull final Cart cart, String uid, @Nullable final DatabaseCallback<Void> callback) {
-        writeData("carts/" + uid, cart, callback);
+        writeData("userCart/" + uid, cart, callback);
+    }
+
+    public void updateProduct(@NotNull final Product product, String uid, @Nullable final DatabaseCallback<Void> callback) {
+        writeData("Products/" + uid, product, callback);
     }
 
 
-
-
-        /// generate a new id for a new cart in the database
-    /// @return a new id for the cart
-    /// @see #generateNewId(String)
-    /// @see Cart
-    public String generateCartId() {
-        return generateNewId("carts");
-    }
 
 
 

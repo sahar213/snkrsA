@@ -47,7 +47,8 @@
         android:hint="תיאור המוצר"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
-        android:inputType="textMultiLine" />
+        android:inputType="textMultiLine"
+        android:layout_marginBottom="20sp" />
 
     <!-- ספינר לגודל -->
     <Spinner
@@ -55,10 +56,9 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:outlineAmbientShadowColor="@color/white"
-
-
-      android:entries="@array/arrSize"
-        />
+        android:background="@drawable/spinner_background"
+        android:layout_marginBottom="20sp"
+        android:entries="@array/arrSize" />
 
     <!-- ספינר לסוג -->
     <Spinner
@@ -67,8 +67,9 @@
         android:textColorHint="@color/white"
         android:outlineAmbientShadowColor="@color/white"
         android:outlineSpotShadowColor="@color/white"
+        android:background="@drawable/spinner_background"
         android:entries="@array/arrType"
-
+        android:layout_marginBottom="20sp"
         android:layout_height="40dp" />
 
     <!-- ספינר לצבע -->
@@ -77,7 +78,8 @@
         android:layout_width="match_parent"
         android:textColor="@color/white"
         android:entries="@array/arrColor"
-
+        android:background="@drawable/spinner_background"
+        android:layout_marginBottom="20sp"
         android:layout_height="40dp" />
 
     <!-- כפתור להוספת תמונה -->

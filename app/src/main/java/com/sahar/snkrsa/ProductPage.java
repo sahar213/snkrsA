@@ -31,7 +31,7 @@ public class ProductPage extends AppCompatActivity {
     private ImageView productImage;
     private TextView productName, productPrice, productDescription;
     private Button buyButton, addToCartButton, viewCartButton;
-    private     Cart cart=new Cart() ;
+    private Cart cart = null;
 
     Spinner spColor, spSizes;
 
@@ -39,15 +39,17 @@ public class ProductPage extends AppCompatActivity {
     DatabaseService databaseService;
     AuthenticationService authenticationService;
     String uid;
-    private double total=0;
-    String [] sizeArr;
-    String [] colorArr;// =new String[];
+    private double total = 0;
+    String[] sizeArr;
+    String[] colorArr;// =new String[];
+
+    String[] asrrSize2;
 
     ArrayAdapter<String> adapterColor, adapterSize;
 
     Spinner spAmount;
 
-    int amount=1;
+    int amount = 1;
     String stAmount;
 
 
@@ -56,120 +58,79 @@ public class ProductPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_page);
 
-        productImage = findViewById(R.id.product_image);
-        productName = findViewById(R.id.product_name);
-        productPrice = findViewById(R.id.product_price);
-        productDescription = findViewById(R.id.product_description);
-        buyButton = findViewById(R.id.buy_button);
-        addToCartButton = findViewById(R.id.btnAddToCart);
-        viewCartButton=findViewById(R.id.btnViewCart2);
-        spColor=findViewById(R.id.spProductColor);
-        spSizes=findViewById(R.id.spProductSize);
-        spAmount=findViewById(R.id.spAmount);
+
+        initViews();
+
+
 
         /// get the instance of the authentication service
         authenticationService = AuthenticationService.getInstance();
-        /// get the instance of the database service
+//        / get the instance of the database service
         databaseService = DatabaseService.getInstance();
-        uid=AuthenticationService.getInstance().getCurrentUserId();
+        uid=authenticationService.getCurrentUserId();
 
-        databaseService.getCart(uid, new DatabaseService.DatabaseCallback<Cart>() {
+
+
+      databaseService.getCart(uid, new DatabaseService.DatabaseCallback<Cart>() {
             @Override
             public void onCompleted(Cart object) {
 
-
                 if(object==null)
                     cart=new Cart();
-                else cart=object;
-
-
-
+                else  cart=object;
             }
 
             @Override
             public void onFailed(Exception e) {
                 cart=new Cart();
-
             }
         });
 
 
-
-
-
-
-
-        // קבלת פרטי המוצר מהIntent
+//         קבלת פרטי המוצר מהIntent
         Intent intent = getIntent();
 
 
         productSelected= (Product) intent.getSerializableExtra("product");
 
 
-
-
-if( productSelected!=null) {
-
-
-
-
-
-    String color=productSelected.getColor().toString().trim();
-    colorArr= color.split(",");
-
-
-   adapterColor=new ArrayAdapter<>(ProductPage.this,   android.R.layout.simple_spinner_dropdown_item,colorArr);
-   spColor.setAdapter(adapterColor);
-
-   String sizes=productSelected.getSize().toString().trim();
-
-    sizeArr=sizes.split(",");
-
-
-   Log.d("sizeArr", sizeArr[0]);
-
-    adapterSize=new ArrayAdapter<>(ProductPage.this,   android.R.layout.simple_spinner_dropdown_item,sizeArr);
-    spSizes.setAdapter(adapterSize);
-    productName.setText(productSelected.getName());
-    productPrice.setText(productSelected.getPrice()+"");
-    productDescription.setText(productSelected.getDescription());
-    productImage.setImageBitmap(ImageUtil.convertFrom64base(productSelected.getImageName()));
-}
+initProduct(productSelected);
 //
- //        טיפול בכפתור "קנה עכשיו"
-        buyButton.setOnClickListener(v -> {
+//
+//
 
-
-            Toast.makeText(ProductPage.this, "Product purchased!", Toast.LENGTH_SHORT).show();
-        });
-
-  //       טיפול בכפתור "הוסף לסל"
+//         טיפול בכפתור "קנה עכשיו"
+//
+//
+//         טיפול בכפתור "הוסף לסל"
         addToCartButton.setOnClickListener(v -> {
 
 
-              stAmount=spAmount.getSelectedItem().toString();
-            amount=Integer.parseInt(stAmount);
+
 
             String color=spColor.getSelectedItem().toString();
             String size=spSizes.getSelectedItem().toString();
-            Product userProduct=new Product(productSelected);
-            userProduct.setColor(color);
-            userProduct.setSize(size);
+            productSelected.setSize(size);
+            productSelected.setColor(color);
+            stAmount=spAmount.getSelectedItem().toString();
+            amount=Integer.parseInt(stAmount);
+            ItemCart itemCart=new ItemCart(productSelected,amount);
 
 
 
-            ItemCart itemCart=new ItemCart(userProduct,amount);
-
-          // הוספת המוצר לסל הקניות (cart)
+//           הוספת המוצר לסל הקניות (cart)
 
             cart.addItemToCart(itemCart);
 
             Toast.makeText(ProductPage.this, "המוצר נוסף לעגלה", Toast.LENGTH_SHORT).show();
 
-            databaseService.updateCart(cart,uid, new DatabaseService.DatabaseCallback<Void>() {
+            databaseService.updateCart(cart ,uid, new DatabaseService.DatabaseCallback<Void>() {
                 @Override
                 public void onCompleted(Void object) {
                     Toast.makeText(ProductPage.this, "המוצר נוסף לעגלה", Toast.LENGTH_SHORT).show();
+
+                    Intent cartIntent = new Intent(ProductPage.this, CartPage.class);
+                    startActivity(cartIntent);
                 }
 
                 @Override
@@ -177,18 +138,11 @@ if( productSelected!=null) {
 
                 }
             });
-
-
-
-
-
-
-
-
-
+//
+//
         });
-
-  //       מעבר למסך עגלת הקניות
+//
+//               מעבר למסך עגלת הקניות
         viewCartButton.setOnClickListener(v -> {
             Intent cartIntent = new Intent(ProductPage.this, CartPage.class);
             startActivity(cartIntent);
@@ -199,4 +153,58 @@ if( productSelected!=null) {
 
 
 
+    private void initProduct(Product productSelected) {
+
+        if( productSelected!=null) {
+
+
+
+
+
+
+                colorArr= getResources().getStringArray(R.array.arrColor);
+
+
+                adapterColor=new ArrayAdapter<>(ProductPage.this,   android.R.layout.simple_spinner_dropdown_item,colorArr);
+                spColor.setAdapter(adapterColor);
+
+
+                 sizeArr= getResources().getStringArray(R.array.arrSize);
+                 //asrrSize2 = getResources().getStringArray(R.id.asrrSize2);
+
+
+
+
+                Log.d("sizeArr", sizeArr[0]);
+
+
+                String Type = productSelected.getType();
+
+                    adapterSize=new ArrayAdapter<>(ProductPage.this,   android.R.layout.simple_spinner_dropdown_item,sizeArr);
+
+                 spSizes.setAdapter(adapterSize);
+                 productName.setText(productSelected.getName());
+                 productPrice.setText(productSelected.getPrice()+"");
+                 productDescription.setText(productSelected.getDescription());
+                productImage.setImageBitmap(ImageUtil.convertFrom64base(productSelected.getImageName()));
 }
+
+
+    }
+
+    private void initViews() {
+
+        productImage = findViewById(R.id.product_image);
+        productName = findViewById(R.id.product_name);
+        productPrice = findViewById(R.id.product_price);
+        productDescription = findViewById(R.id.product_description);
+        buyButton = findViewById(R.id.buy_button);
+        addToCartButton = findViewById(R.id.btnAddToCart);
+        viewCartButton = findViewById(R.id.btnViewCart2);
+        spColor = findViewById(R.id.spProductColor);
+        spSizes = findViewById(R.id.spProductSize);
+        spAmount = findViewById(R.id.spAmount);
+    }
+}
+
+

@@ -6,14 +6,9 @@ public class Product implements Serializable {
     protected  String id;
     private String name;
     private double price;
-
-
     String type;
     String size;
     String color;
-
-
-
     private String description;
     private String imageName;  // שם התמונה
 

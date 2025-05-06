@@ -1,4 +1,4 @@
-package com.sahar.snkrsa;
+package com.sahar.snkrsa.utils;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.sahar.snkrsa.model.Item;
+import com.sahar.snkrsa.ProductPage;
+import com.sahar.snkrsa.R;
 import com.sahar.snkrsa.model.Product;
 import com.sahar.snkrsa.utils.ImageUtil;
 

@@ -5,6 +5,9 @@
         <item>Shin Guard</item>
         <item>Wraps</item>
         <item>Mouth Guard</item>
+        <item>Head Guard</item>
+        <item>Shorts</item>
+
         <item></item>
 
 
@@ -17,6 +20,7 @@
         <item>M</item>
         <item>L</item>
         <item>XL</item>
+        <item>10oz</item>
         <item>12oz</item>
         <item>14oz</item>
         <item>16oz</item>
@@ -33,6 +37,7 @@
         <item>Silver</item>
         <item>Green</item>
         <item>Orange</item>
+        <item>Pink</item>
 
     </string-array>
 
@@ -74,7 +79,13 @@
         <item>L</item>
         <item>XL</item>
 
+    </string-array>
 
+    <string-array name="arrL">
+        <item>3 Meter</item>
+        <item>4 Meter</item>
+        <item>4.5 Meter</item>
+        <item>5 Meter</item>
     </string-array>
 
 </resources>

@@ -6,6 +6,7 @@ public class Cart {
 
     ArrayList<ItemCart>itemCarts;
 
+
 double total;
 
     public Cart(ArrayList<ItemCart> itemCarts) {
@@ -13,10 +14,16 @@ double total;
     }
 
 
-    public Cart(ArrayList<ItemCart> itemCarts, double total) {
-        this.itemCarts = itemCarts;
+
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
         this.total = total;
     }
+
 
     public Cart() {
         itemCarts=new ArrayList<>();
@@ -25,6 +32,10 @@ double total;
     }
 
     public  void  addItemToCart(ItemCart itemCart){
+
+     //   if(this.itemCarts==null)
+      //      this.itemCarts=new ArrayList<>();
+
 
         this.itemCarts.add(itemCart);
     }

@@ -5,6 +5,10 @@ public class ItemCart {
     Product product;
     int amount;
 
+
+
+
+
     public ItemCart(Product product, int amount) {
         this.product = product;
         this.amount = amount;
@@ -28,6 +32,8 @@ public class ItemCart {
     public void setAmount(int amount) {
         this.amount = amount;
     }
+
+
 
     @Override
     public String toString() {

@@ -5,28 +5,25 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.sahar.snkrsa.model.Cart;
 import com.sahar.snkrsa.model.ItemCart;
-import com.sahar.snkrsa.model.Product;
 import com.sahar.snkrsa.services.AuthenticationService;
 import com.sahar.snkrsa.services.DatabaseService;
+import com.sahar.snkrsa.utils.CartAdapter;
 
 import java.util.ArrayList;
 
 public class CartPage extends AppCompatActivity implements View.OnClickListener {
-    private TextView cartItems;
     private Button btnBackFcart;
-
-    // הסל שהוגדר ב-ProductPage
     private Cart cart;
-
-    ScrollView svCart;
+    private RecyclerView rvCart;
+    private CartAdapter cartAdapter;
 
     DatabaseService databaseService;
     AuthenticationService authenticationService;
@@ -37,62 +34,44 @@ public class CartPage extends AppCompatActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart_page);
 
-        cartItems = findViewById(R.id.cart_items);
-        btnBackFcart =findViewById(R.id.btnBackFcart);
-        svCart = findViewById(R.id.svCart);
-
-        // הצגת פרטי המוצרים בסל
-        StringBuilder cartContent = new StringBuilder();
-        /// get the instance of the authentication service
+        // שירותים
         authenticationService = AuthenticationService.getInstance();
-        /// get the instance of the database service
         databaseService = DatabaseService.getInstance();
-        uid=AuthenticationService.getInstance().getCurrentUserId();
+        uid = authenticationService.getCurrentUserId();
 
+        rvCart = findViewById(R.id.rvCart);
+        rvCart.setLayoutManager(new LinearLayoutManager(this));
+
+        // אתחול סל ריק בתחילה כדי למנוע NullPointer
+        cart = new Cart(new ArrayList<ItemCart>());
+        cartAdapter = new CartAdapter(this, cart);
+        rvCart.setAdapter(cartAdapter);
+
+        // טען את הסל מהמסד
         databaseService.getCart(uid, new DatabaseService.DatabaseCallback<Cart>() {
             @Override
-            public void onCompleted(Cart object) {
-
-                if (object == null)
-                    cart = new Cart();
-                else
-                    cart = object;
-
-                if (cart != null ) {
-
-                    for (ItemCart product : cart.getItemCarts()) {
-                        cartContent.append("Image: ").append(product.getProduct()).append("\n");
-                        cartContent.append("Name: ").append(product.getProduct().getName()).append("\n");
-                        cartContent.append("Price: ").append(product.getProduct().getPrice()).append("\n");
-                        cartContent.append("Description: ").append(product.getProduct().getDescription()).append("\n\n");
-
-                        Log.d("cart", cartContent.toString());
-                    }
-
-
-                } else {
-                    cartContent.append("הסל ריק.");
+            public void onCompleted(Cart resultCart) {
+                if (resultCart != null && resultCart.getItemCarts() != null) {
+                    cart.setItemCarts(resultCart.getItemCarts());
+                    cartAdapter.notifyDataSetChanged();
                 }
-
-
-
             }
 
             @Override
             public void onFailed(Exception e) {
-                cart = new Cart();
+                Log.e("error", e.getMessage());
+                Toast.makeText(CartPage.this, "שגיאה בטעינת הסל", Toast.LENGTH_SHORT).show();
             }
         });
 
-
+        // כפתור חזרה
+        btnBackFcart = findViewById(R.id.btnBackFcart);
         btnBackFcart.setOnClickListener(this);
-        cartItems.setText(cartContent.toString());
-
     }
 
     @Override
     public void onClick(View v) {
-            Intent goLog = new Intent(CartPage.this, ProductPage.class);
-            startActivity(goLog);
+        Intent goLog = new Intent(CartPage.this, store.class);
+        startActivity(goLog);
     }
 }
