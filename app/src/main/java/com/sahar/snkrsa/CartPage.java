@@ -11,8 +11,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.sahar.snkrsa.model.Cart;
 import com.sahar.snkrsa.model.ItemCart;
+import com.sahar.snkrsa.model.Order;
+import com.sahar.snkrsa.model.User;
 import com.sahar.snkrsa.services.AuthenticationService;
 import com.sahar.snkrsa.services.DatabaseService;
 import com.sahar.snkrsa.utils.CartAdapter;
@@ -20,7 +24,7 @@ import com.sahar.snkrsa.utils.CartAdapter;
 import java.util.ArrayList;
 
 public class CartPage extends AppCompatActivity implements View.OnClickListener {
-    private Button btnBackFcart;
+    private Button btnBackFcart,btnOrder;
     private Cart cart;
     private RecyclerView rvCart;
     private CartAdapter cartAdapter;
@@ -28,6 +32,8 @@ public class CartPage extends AppCompatActivity implements View.OnClickListener 
     DatabaseService databaseService;
     AuthenticationService authenticationService;
     String uid;
+
+    User user=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,14 +70,75 @@ public class CartPage extends AppCompatActivity implements View.OnClickListener 
             }
         });
 
+
+        databaseService.getUser(uid, new DatabaseService.DatabaseCallback<User>() {
+            @Override
+            public void onCompleted(User object) {
+                user=new User(object);
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+
+            }
+        });
+
+
+
+
         // כפתור חזרה
         btnBackFcart = findViewById(R.id.btnBackFcart);
         btnBackFcart.setOnClickListener(this);
+        btnOrder=findViewById(R.id.btnOrder);
+        btnOrder.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
+
+        processOrder();
+
         Intent goLog = new Intent(CartPage.this, store.class);
         startActivity(goLog);
+    }
+
+
+    private void processOrder() {
+        if (cart == null || cart.getItemCarts().isEmpty()) {
+            Toast.makeText(this, "העגלה ריקה!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String orderId=databaseService.generateOrderId();
+        Order order = new Order(orderId, cart.getItemCarts(),  cart.getTotalCart(), "new",  user,  0);
+
+        order.setTimestamp(System.currentTimeMillis());
+        databaseService.createNewOreder(order, new DatabaseService.DatabaseCallback<Void>() {
+            @Override
+            public void onCompleted(Void object) {
+                Toast.makeText(CartPage.this, "הזמנה נשמרה!", Toast.LENGTH_SHORT).show();
+                cart=new Cart();
+
+                databaseService.updateCart(cart, uid, new DatabaseService.DatabaseCallback<Void>() {
+                    @Override
+                    public void onCompleted(Void object) {
+
+                    }
+
+                    @Override
+                    public void onFailed(Exception e) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+                Toast.makeText(CartPage.this, "שגיאה בשמירת ההזמנה", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
     }
 }

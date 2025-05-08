@@ -69,17 +69,23 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             product_name.setText(product.getName());
             product_price.setText(product.getPrice() + "₪");
             product_amount.setText(String.valueOf(amount));
-            product_size.setText(product.getSize());
+        //   product_size.setText(product.getSize());
 
             ibPlus.setOnClickListener(v -> {
                 item_cart.setAmount(item_cart.getAmount() + 1);
                 product_amount.setText(String.valueOf(item_cart.getAmount()));
+
             });
 
             ibMinus.setOnClickListener(v -> {
                 if (item_cart.getAmount() > 0) {
                     item_cart.setAmount(item_cart.getAmount() - 1);
                     product_amount.setText(String.valueOf(item_cart.getAmount()));
+                }
+                else if(item_cart.getAmount()==0)
+                {
+
+
                 }
             });
         }

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,6 +29,8 @@ import com.sahar.snkrsa.model.Product;
 import com.sahar.snkrsa.services.DatabaseService;
 import com.sahar.snkrsa.utils.ImageUtil;
 
+import java.util.ArrayList;
+
 public class AddProductActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "AddProductActivity";
@@ -47,6 +50,10 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
 
     private String selectedColor = "";
     private String selectedSize = "";
+
+    private ArrayList<String> colorList=new ArrayList<>();
+    private ArrayList<String> sizeList= new ArrayList<>();
+
     private String type = "";
 
     @Override
@@ -86,7 +93,33 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
         iv = findViewById(R.id.ivProduct2);
 
         sizeSpinner = findViewById(R.id.spinnerSize);
+        sizeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedSize=parent.getSelectedItem().toString();
+                sizeList.add(selectedSize);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         colorSpinner = findViewById(R.id.spinnerColor);
+
+        colorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedColor=parent.getSelectedItem().toString();
+                colorList.add(selectedColor);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         typeSpinner = findViewById(R.id.spinnerType);
 
         addProductButton.setOnClickListener(this);
@@ -101,8 +134,7 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
             String stprice = productPriceField.getText().toString().trim();
             String description = productDescriptionField.getText().toString().trim();
 
-            selectedSize = sizeSpinner.getSelectedItem().toString();
-            selectedColor = colorSpinner.getSelectedItem().toString();
+
             String selectedType = typeSpinner.getSelectedItem().toString();
 
             String imageBase64 = ImageUtil.convertTo64Base(iv);
@@ -124,7 +156,7 @@ public class AddProductActivity extends AppCompatActivity implements View.OnClic
 
             String productId = databaseService.generateProductId();
             if (productId != null) {
-                Product newProduct = new Product(productId, name, price, type, selectedSize, selectedColor, description, imageBase64);
+                Product newProduct = new Product(productId, name, price, type, sizeList, colorList, description, imageBase64);
 
                 databaseService.createNewProduct(newProduct, new DatabaseService.DatabaseCallback<Void>() {
                     @Override

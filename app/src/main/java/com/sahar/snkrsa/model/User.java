@@ -41,6 +41,17 @@ public class User {
         this.email = email;
     }
 
+    public User(User user) {
+        this.id = user.id;
+        this.fName = user.fName;
+        this.lName = user.lName;
+        this.phone = user.phone;
+        this.email = user.email;
+
+
+
+    }
+
 
     public static User getInstance() {
         if (instance == null) {

@@ -25,6 +25,10 @@
         <item>14oz</item>
         <item>16oz</item>
         <item>One size</item>
+        <item>3 Meter</item>
+        <item>4 Meter</item>
+        <item>4.5 Meter</item>
+        <item>5 Meter</item>
 
     </string-array>
 
@@ -38,6 +42,7 @@
         <item>Green</item>
         <item>Orange</item>
         <item>Pink</item>
+        <item>Purple</item>
 
     </string-array>
 
@@ -87,5 +92,13 @@
         <item>4.5 Meter</item>
         <item>5 Meter</item>
     </string-array>
+
+    <string-array name="arrOz">
+        <item>10oz</item>
+        <item>12oz</item>
+        <item>14oz</item>
+        <item>16oz</item>
+    </string-array>
+
 
 </resources>

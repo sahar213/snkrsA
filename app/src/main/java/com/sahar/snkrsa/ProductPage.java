@@ -30,7 +30,7 @@ public class ProductPage extends AppCompatActivity {
 
     private ImageView productImage;
     private TextView productName, productPrice, productDescription;
-    private Button buyButton, addToCartButton, viewCartButton;
+    private Button addToCartButton, viewCartButton;
     private Cart cart = null;
 
     Spinner spColor, spSizes;
@@ -40,10 +40,9 @@ public class ProductPage extends AppCompatActivity {
     AuthenticationService authenticationService;
     String uid;
     private double total = 0;
-    String[] sizeArr;
-    String[] colorArr;// =new String[];
 
-    String[] asrrSize2;
+
+
 
     ArrayAdapter<String> adapterColor, adapterSize;
 
@@ -106,12 +105,10 @@ initProduct(productSelected);
         addToCartButton.setOnClickListener(v -> {
 
 
-
-
             String color=spColor.getSelectedItem().toString();
             String size=spSizes.getSelectedItem().toString();
-            productSelected.setSize(size);
-            productSelected.setColor(color);
+           // productSelected.setSize(size);
+            //productSelected.setColor(color);
             stAmount=spAmount.getSelectedItem().toString();
             amount=Integer.parseInt(stAmount);
             ItemCart itemCart=new ItemCart(productSelected,amount);
@@ -162,25 +159,20 @@ initProduct(productSelected);
 
 
 
-                colorArr= getResources().getStringArray(R.array.arrColor);
 
 
-                adapterColor=new ArrayAdapter<>(ProductPage.this,   android.R.layout.simple_spinner_dropdown_item,colorArr);
+                adapterColor=new ArrayAdapter<>(ProductPage.this,   android.R.layout.simple_spinner_dropdown_item,productSelected.getColor());
                 spColor.setAdapter(adapterColor);
 
 
-                 sizeArr= getResources().getStringArray(R.array.arrSize);
-                 //asrrSize2 = getResources().getStringArray(R.id.asrrSize2);
 
 
 
-
-                Log.d("sizeArr", sizeArr[0]);
 
 
                 String Type = productSelected.getType();
 
-                    adapterSize=new ArrayAdapter<>(ProductPage.this,   android.R.layout.simple_spinner_dropdown_item,sizeArr);
+                    adapterSize=new ArrayAdapter<>(ProductPage.this,   android.R.layout.simple_spinner_dropdown_item,productSelected.getSize());
 
                  spSizes.setAdapter(adapterSize);
                  productName.setText(productSelected.getName());
@@ -198,7 +190,7 @@ initProduct(productSelected);
         productName = findViewById(R.id.product_name);
         productPrice = findViewById(R.id.product_price);
         productDescription = findViewById(R.id.product_description);
-        buyButton = findViewById(R.id.buy_button);
+
         addToCartButton = findViewById(R.id.btnAddToCart);
         viewCartButton = findViewById(R.id.btnViewCart2);
         spColor = findViewById(R.id.spProductColor);

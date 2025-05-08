@@ -41,7 +41,15 @@ double total;
     }
 
     public ArrayList<ItemCart> getItemCarts() {
-        return itemCarts;
+
+        for (int i = 0; i < this.itemCarts.size(); i++) {
+            if (this.itemCarts.get(i).amount == 0)
+
+                this.itemCarts.remove(i);
+
+        }
+            return itemCarts;
+
     }
 
     public void setItemCarts(ArrayList<ItemCart> itemCarts) {
@@ -73,7 +81,7 @@ double total;
     public String toString() {
         return "Cart{" +
                 "itemCarts=" + itemCarts +
-                ", total=" + total +
+
                 '}';
     }
 }

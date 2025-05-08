@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.sahar.snkrsa.model.Cart;
+import com.sahar.snkrsa.model.Order;
 import com.sahar.snkrsa.model.Product;
 import com.sahar.snkrsa.model.User;
 
@@ -159,6 +160,24 @@ public class DatabaseService {
     }
 
 
+
+
+
+    /// create a new item in the database
+    /// @param item the item object to create
+    /// @param callback the callback to call when the operation is completed
+    ///              the callback will receive void
+    ///             if the operation fails, the callback will receive an exception
+    /// @return void
+    /// @see DatabaseCallback
+    /// @see Item
+    public void createNewOreder(@NotNull final Order order,  @Nullable final DatabaseCallback<Void> callback) {
+        writeData("Orders/" + order.getOrderId(), order, callback);
+        writeData("UserOrders/" +order.getUser().getId()+"/"+ order.getOrderId(), order, callback);
+
+    }
+
+
     /// get a user from the database
     /// @param uid the id of the user to get
     /// @param callback the callback to call when the operation is completed
@@ -193,6 +212,16 @@ public class DatabaseService {
     public String generateProductId() {
         return generateNewId("Products");
     }
+
+
+    /// generate a new id for a new item in the database
+    /// @return a new id for the item
+    /// @see #generateNewId(String)
+    /// @see Item
+    public String generateOrderId() {
+        return generateNewId("Orders");
+    }
+
 
 
     /// get all the items from the database

@@ -1,21 +1,24 @@
 package com.sahar.snkrsa.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Product implements Serializable {
     protected  String id;
     private String name;
     private double price;
-    String type;
-    String size;
-    String color;
+
+
+   String type;
+    ArrayList< String> size;
+    ArrayList< String>  color;
     private String description;
     private String imageName;  // שם התמונה
 
     // בוני משתנים ושיטות גישה (getter / setter)
 
 
-    public Product(String id, String name, double price, String type, String size, String color, String description, String imageName) {
+    public Product(String id, String name, double price, String type, ArrayList<String> size, ArrayList<String> color, String description, String imageName) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -31,8 +34,8 @@ public class Product implements Serializable {
         this.name = product.name;
         this.price = product.price;
         this.type = product.type;
-        this.size = "";
-        this.color = "";
+        this.size = new ArrayList<>();
+        this.color = new ArrayList<>();
         this.description = product.description;
         this.imageName = product.imageName;
     }
@@ -90,23 +93,21 @@ public class Product implements Serializable {
         this.type = type;
     }
 
-    public String getSize() {
+    public ArrayList<String> getSize() {
         return size;
     }
 
-    public void setSize(String size) {
+    public void setSize(ArrayList<String> size) {
         this.size = size;
     }
 
-    public String getColor() {
+    public ArrayList<String> getColor() {
         return color;
     }
 
-    public void setColor(String color) {
+    public void setColor(ArrayList<String> color) {
         this.color = color;
     }
-
-
 
     @Override
     public String toString() {
